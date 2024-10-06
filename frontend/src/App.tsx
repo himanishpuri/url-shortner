@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface AxiosErrorResponse {
 	response?: {
@@ -23,12 +25,15 @@ function App(): JSX.Element {
 				},
 			);
 			setShortenedUrl(response.data.shortUrl);
+
 			navigator.clipboard
 				.writeText(response.data.shortUrl)
 				.then(() => {
+					toast.success("Shortened URL copied to clipboard");
 					console.log("Shortened URL copied to clipboard");
 				})
 				.catch((err) => {
+					toast.error("Failed to copy the URL");
 					console.error("Failed to copy the URL: ", err);
 				});
 			setError(""); // Clear any previous errors
@@ -65,10 +70,11 @@ function App(): JSX.Element {
 					<textarea
 						readOnly
 						value={shortenedUrl}
-						className="p-2 rounded bg-gray-800 text-white min-w-56"
+						className="p-2 rounded bg-gray-800 text-white min-w-56 min-h-48"
 					/>
 				)}
 			</div>
+			<ToastContainer />
 		</div>
 	);
 }
