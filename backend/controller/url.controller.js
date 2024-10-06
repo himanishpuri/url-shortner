@@ -1,7 +1,7 @@
 import validUrl from "valid-url";
-import Url from "../models/url.model.js";
 import { nanoid } from "nanoid";
 import asyncHandler from "express-async-handler";
+import Url from "../models/url.model.js";
 import { htmlTemplate } from "../static/error.js";
 
 export const shortener = asyncHandler(async (req, res, next) => {
