@@ -5,11 +5,12 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon main.js"
+    "dev": "nodemon main.js",
+    "build": "npm i"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com"
+    "url": "https://github.com/himanishpuri/url-shortner"
   },
   "keywords": [
     "node",
