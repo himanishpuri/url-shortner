@@ -23,6 +23,14 @@ function App(): JSX.Element {
 				},
 			);
 			setShortenedUrl(response.data.shortUrl);
+			navigator.clipboard
+				.writeText(response.data.shortUrl)
+				.then(() => {
+					console.log("Shortened URL copied to clipboard");
+				})
+				.catch((err) => {
+					console.error("Failed to copy the URL: ", err);
+				});
 			setError(""); // Clear any previous errors
 		} catch (error: unknown) {
 			const axiosError = error as AxiosErrorResponse;
