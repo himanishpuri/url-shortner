@@ -10,6 +10,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 import urlRouter from "./routes/url.route.js";
-app.use("/api/url", urlRouter);
+app.use("/", urlRouter);
 
 export default app;

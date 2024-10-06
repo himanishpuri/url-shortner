@@ -22,7 +22,7 @@ const urlSchema = new mongoose.Schema({
 });
 
 urlSchema.virtual("shortUrl").get(function () {
-	return "http://localhost:5000/" + this.urlId;
+	return `${process.env.BACKEND_URI}/` + this.urlId;
 });
 
 export default mongoose.model("Url", urlSchema);
