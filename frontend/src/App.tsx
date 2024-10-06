@@ -33,7 +33,7 @@ function App(): JSX.Element {
 
 	return (
 		<div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white">
-			<h1 className="text-4xl mb-8">URL Shortener</h1>
+			<h1 className="text-4xl mb-8">URL Alternate</h1>
 			<div className="flex flex-col items-center">
 				<input
 					type="text"
