@@ -1,48 +1,67 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg?url";
-import "./App.css";
+import axios from "axios";
 
-function App() {
-	const [count, setCount] = useState(0);
+interface AxiosErrorResponse {
+	response?: {
+		data?: {
+			message?: string;
+		};
+	};
+}
+
+function App(): JSX.Element {
+	const [url, setUrl] = useState("");
+	const [shortenedUrl, setShortenedUrl] = useState("");
+	const [error, setError] = useState("");
+
+	const handleSubmit = async () => {
+		try {
+			const response = await axios.post(
+				`${import.meta.env.VITE_BACKEND_URI}/shorten`,
+				{
+					OriginalUrl: url,
+				},
+			);
+			setShortenedUrl(response.data.shortUrl);
+			setError(""); // Clear any previous errors
+		} catch (error: unknown) {
+			const axiosError = error as AxiosErrorResponse;
+			console.error("Error shortening the URL", axiosError);
+			setError(axiosError.response?.data?.message ?? "An error occurred");
+		}
+	};
 
 	return (
-		<>
-			<div>
-				<a
-					href="https://vitejs.dev"
-					target="_blank"
+		<div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white">
+			<h1 className="text-4xl mb-8">URL Shortener</h1>
+			<div className="flex flex-col items-center">
+				<input
+					type="text"
+					placeholder="Enter URL"
+					value={url}
+					onChange={(e) => setUrl(e.target.value)}
+					className="p-2 mb-4 rounded bg-gray-800 text-white"
+				/>
+				<button
+					onClick={handleSubmit}
+					className="p-2 mb-4 rounded bg-blue-500 hover:bg-blue-700"
 				>
-					<img
-						src={viteLogo}
-						className="logo"
-						alt="Vite logo"
-					/>
-				</a>
-				<a
-					href="https://react.dev"
-					target="_blank"
-				>
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
+					Shorten URL
 				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
+				{error && (
+					<div className="p-2 mb-4 rounded bg-red-500 text-white">
+						{error}
+					</div>
+				)}
+				{shortenedUrl && (
+					<textarea
+						readOnly
+						value={shortenedUrl}
+						className="p-2 rounded bg-gray-800 text-white min-w-56"
+					/>
+				)}
 			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
-		</>
+		</div>
 	);
 }
 

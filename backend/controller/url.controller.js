@@ -2,6 +2,7 @@ import validUrl from "valid-url";
 import Url from "../models/url.model.js";
 import { nanoid } from "nanoid";
 import asyncHandler from "express-async-handler";
+import { htmlTemplate } from "../static/error.js";
 
 export const shortener = asyncHandler(async (req, res, next) => {
 	const { OriginalUrl } = req.body;
@@ -46,6 +47,6 @@ export const redirectUrl = asyncHandler(async (req, res, next) => {
 
 		return res.redirect(urlID.origUrl);
 	} catch (error) {
-		res.json({ message: error.message });
+		res.send(htmlTemplate(error.message));
 	}
 });
